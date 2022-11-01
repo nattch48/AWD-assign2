@@ -1,0 +1,102 @@
+*,
+*::before,
+*::after{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* changes texts of errors to red */
+.error {
+    color: #FF0000;
+}
+.title, .footer {
+    text-align: center;
+}
+
+.container{
+    margin: auto;
+	width: min(95%, 80.5rem);
+}
+
+img {
+    width: 40%;
+    margin: auto;
+    display: block;
+}
+
+body, input[type=submit]{
+    font-family: "Poppins", sans-serif;
+}
+
+nav{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	min-height: 8vh;
+	background-color: #000000;
+	font-family: 'Poppins', sans-serif;
+	
+}
+
+/*website logo*/
+.logo{
+	font-family: "Poppins", sans-serif;
+	color: rgb(226, 226, 226);
+	letter-spacing: 0.3125rem;
+	font-size: 1.2rem;	
+}
+
+/*format of the links*/
+.logo a{
+	color: rgb(226, 226, 226);
+	text-decoration: none; 	/*removes underline of the text*/
+}
+
+.nav-links{
+	display: flex;
+	justify-content: space-around;
+	width: 55%;
+	
+}
+.nav-links li{
+	list-style: none;
+}
+.nav-links ul{
+	display: none;
+	position:absolute;
+	background-color: black;
+	border-radius: 0 0 0.25rem 0.25rem;
+}
+.nav-links :hover ul{
+	display: block;
+}
+.nav-links ul a{
+	padding: 0.5rem 0.875rem;
+}
+.nav-links a{
+	color: rgb(226, 226, 226);
+	text-decoration: none;
+	letter-spacing: 0.1875rem;
+	font-weight: bold;
+	font-size: 0.875rem;
+}
+/* a{
+	color: black;
+	text-decoration: none;
+} */
+a:hover{
+color: gray;
+}
+
+a:active{
+	color: #4ca1af;
+}
+
+.nested {
+    margin-left: 50px;
+}
+
+.container2 {
+    padding: 10px;
+}

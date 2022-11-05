@@ -24,20 +24,27 @@
             <br/>
             <h1 class="title">KPI Assignment System</h1>
             <br/>
-            <div>
-                <img src="../images/me.jpg" alt="Natasia Ting">
+            <h2 class="title">Login Page</h2>
+            <br/>
+            <div class="split">
+                <div class="login_img">
+                    <img src="../images/top_image.png" alt="Industrial Style Living Room">
+                </div>
+                <div class="login_content">
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                    <p><label for="login_name">Login Name: </label>
+                        <input type="text" name="login_name"/></p>
+                        <!-- displays error message -->
+                        <!-- <span class="error"><?php echo $msgErr;?></span> -->
+                    <p><label for="login_pwd">Password: </label>
+                        <input type="text" name="login_pwd"/></p>
+                    <br/><br/>
+                    <input type="submit" name="login" value="Login" >
+                    <input type="reset" name="clear" value="Clear Form" >
+
+                    </form>
+                </div>
             </div>
-            <br/>
-            <!-- image goes here -->
-            <p><strong>Name: </strong>Natasia Ting</p>
-            <p><strong>Student ID: </strong>101235874</p>
-            <p><strong>Email: </strong><a href="mailto:101235874@students.swinburne.edu.my">101235874@students.swinburne.edu.my</a></p>
-            <br/>
-            <p>I declare that this assignment is my individual work. I have not work 
-            collaboratively nor have I copied from any other student's work or from any other source. 
-            I have not engaged another party to complete this assignment. I am aware of the 
-            University’s policy with regards to plagiarism. I have not allowed, and will not allow, 
-            anyone to copy my work with the intention of passing it off as his or her own work.</p>
         
         </section>
         <br/><br/>

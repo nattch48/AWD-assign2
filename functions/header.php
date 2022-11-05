@@ -10,7 +10,7 @@
             <!--create dropdown menu in nav bar of products-->
             
             <li>
-                <a href="index.php" target="new_window">Login</a>
+                <a href="login.php" target="new_window">Login</a>
             </li>
             <li>
                 <a href="addEmployeeForm.php" target="new_window">Add Staff</a>

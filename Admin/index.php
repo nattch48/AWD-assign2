@@ -25,7 +25,7 @@
             <h1 class="title">KPI Assignment System</h1>
             <br/>
             <div>
-                <img src="../images/me.jpg" alt="Natasia Ting">
+                <img class="me" src="../images/me.jpg" alt="Natasia Ting">
             </div>
             <br/>
             <!-- image goes here -->

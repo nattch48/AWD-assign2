@@ -1,3 +1,44 @@
+<?php 
+    include_once '../functions/db_conn.php'; 
+
+    $errorMsg = "";
+    $showError = false;
+
+    if(isset($_POST['login'])) {
+        // Sanitize input data
+        $login=mysqli_real_escape_string($conn, $_POST['login_name']);
+        $pwd = mysqli_real_escape_string($conn, $_POST['login_pwd']);
+
+        $sql = "SELECT password FROM account_table WHERE name='$login'";
+
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            if ($row['password']==$pwd) {
+                session_start();
+                $_SESSION['name'] = $login;
+
+                if ($row['type']=='admin') {
+                    $_SESSION['type'] = 'admin';
+                    header("Location: MainMenu.php");
+                } else {
+                    echo "hello USER";
+                }
+                
+                
+            } else {
+                $errorMsg = "Invalid password";
+                $showError = true;
+            }
+
+        }else{
+            $errorMsg = "Invalid login name";
+            $showError = true;
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +60,6 @@
 
 
     <body>
-        <?php include_once '../functions/db_conn.php'; ?>
         <section class="container">
             <br/>
             <h1 class="title">KPI Assignment System</h1>
@@ -28,14 +68,12 @@
             <br/>
             <div class="split">
                 <div class="login_img">
-                    <img src="../images/top_image.png" alt="Industrial Style Living Room">
+                    <img src="../images/top_image.png" alt="Login Image">
                 </div>
                 <div class="login_content">
                 <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                     <p><label for="login_name">Login Name: </label>
                         <input type="text" name="login_name"/></p>
-                        <!-- displays error message -->
-                        <!-- <span class="error"><?php echo $msgErr;?></span> -->
                     <p><label for="login_pwd">Password: </label>
                         <input type="text" name="login_pwd"/></p>
                     <br/><br/>
@@ -45,15 +83,28 @@
                     </form>
                 </div>
             </div>
+
+                
+            <?php
+                if ($showError==true) {
+
+                
+            ?>
+
+            <fieldset>
+                <legend><strong>ERROR</strong></legend>
+                <ul>
+                    <li class="error"><?php echo $errorMsg ?></li>
+                </ul>
+            </fieldset>      
+
+            <?php
+                }
+            ?>
         
         </section>
         <br/><br/>
         
     </body>
-    <footer class="footer">
-        <p><a href="login.php">Login</a> | 
-        <a href="../about.php">About This Assignment</a>
-        <br/>
-    </footer>
 
 </html>

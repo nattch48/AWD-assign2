@@ -28,45 +28,52 @@
 
     $staff_table = "CREATE TABLE IF NOT EXISTS staff_table (
                     id INT(4) NOT NULL AUTO_INCREMENT, 
-                    staff_id VARCHAR(6) NOT NULL,
+                    staff_id VARCHAR(6) NOT NULL UNIQUE,
                     email VARCHAR(50) NOT NULL,
-                    name VARCHAR(50) NOT NULL,
+                    `name` VARCHAR(50) NOT NULL,
                     gender VARCHAR(6) NOT NULL,
                     school VARCHAR(5) NOT NULL,
                     PRIMARY KEY (id))";
 
     $kpi_table = "CREATE TABLE IF NOT EXISTS kpi_table (
         id INT(4) NOT NULL AUTO_INCREMENT, 
-        kpi_num INT NOT NULL,
-        description VARCHAR(150) NOT NULL,
-        PRIMARY KEY (id))";
+        kpi_num INT NOT NULL UNIQUE,
+        `description` VARCHAR(150) NOT NULL,
+        PRIMARY KEY (id)
+        )";
     
 
     $staff_kpi_table = "CREATE TABLE IF NOT EXISTS staff_kpi_table (
         id INT(4) NOT NULL AUTO_INCREMENT, 
         staff_id VARCHAR(6) NOT NULL,
         kpi_num INT(3) NOT NULL,
-        status VARCHAR(12) NOT NULL,
-        PRIMARY KEY (id))";
+        `status` VARCHAR(12) NOT NULL,
+        PRIMARY KEY (id),
+        FOREIGN KEY (staff_id) REFERENCES staff_table(staff_id),
+        FOREIGN KEY (kpi_num) REFERENCES kpi_table(kpi_num))";
+    
+
 
     //store login credentials
     $account_table = "CREATE TABLE IF NOT EXISTS account_table (
         id INT NOT NULL AUTO_INCREMENT, 
         staff_id VARCHAR(6) NOT NULL,
-        name VARCHAR(50) NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        type ENUM('admin','user'),
+        `name` VARCHAR(50) NOT NULL,
+        `password` VARCHAR(255) NOT NULL,
+        `type` ENUM('admin','user'),
         email VARCHAR(50) NOT NULL,
-        PRIMARY KEY (id))";
+        PRIMARY KEY (id),
+        FOREIGN KEY (staff_id) REFERENCES staff_table (staff_id)
+        )";
 
 
+
+        
 
     execute_query($conn, $staff_table, "staff_table");
     execute_query($conn, $kpi_table, "kpi_table");
     execute_query($conn, $staff_kpi_table, "staff_kpi_table");
-
-    // closing connection
-    mysqli_close($conn);
+    execute_query($conn, $account_table, "account_table");
 
     //executes sql query to create database/tables
     function execute_query($conn, $sql_query, $name) {
@@ -76,5 +83,22 @@
             echo "Error creating $name: " . mysqli_error($conn);
         }
     };
+
+    $populate_staff_tbl = "INSERT IGNORE INTO staff_table (staff_id, email, `name`, gender, school) VALUES ('SS001', 'admin@swinburne.edu.my', 'admin', 'Male', 'SFS'), ('SS100', 'jennifer@swinburne.edu.my', 'Jennifer Lau', 'Female', 'SFS')";
+    $populate_acc_tbl = "INSERT IGNORE INTO account_table (id, staff_id,`name`, `password`, `type`, email) VALUES (1, 'SS001', 'admin', 'admin', 'admin', 'admin@swinburne.edu.my'), (2, 'SS100', 'jennifer', 'password123', 'user', 'jennifer@swinburne.edu.my')";
+
+    populateDB($conn, $populate_staff_tbl, 'staff');
+    populateDB($conn, $populate_acc_tbl, 'account');
+
+    function populateDB($conn, $sql_query, $name) {
+        if (mysqli_query($conn, $sql_query)) {
+            echo "$name OK";
+        } else {
+            echo " $name Error: " . mysqli_error($conn);
+        }
+    }
+
+    // closing connection
+    // mysqli_close($conn);
 ?>
 

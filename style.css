@@ -24,7 +24,7 @@
 	flex-direction: column;
 }
 
-img {
+.me {
     width: 40%;
     margin: auto;
     display: block;

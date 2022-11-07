@@ -1,31 +1,61 @@
 <?php 
+    session_start();
+    if (isset($_SESSION['email'])) { //if session is set, destroy it
+        session_unset();
+        session_destroy();
+    }
+    
     include_once '../functions/db_conn.php'; 
 
     $errorMsg = "";
     $showError = false;
+
+    if (isset($_POST['reset'])) {
+        header("Location:login.php");
+    }
 
     if(isset($_POST['login'])) {
         // Sanitize input data
         $login=mysqli_real_escape_string($conn, $_POST['login_name']);
         $pwd = mysqli_real_escape_string($conn, $_POST['login_pwd']);
 
-        $sql = "SELECT password FROM account_table WHERE name='$login'";
+        $sql = "SELECT * FROM account_table WHERE name='$login'";
 
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
+            
+            //validates password with the ones in the DB
             if ($row['password']==$pwd) {
                 session_start();
-                $_SESSION['name'] = $login;
+                $_SESSION['email'] = $row['email'];
 
-                if ($row['type']=='admin') {
-                    $_SESSION['type'] = 'admin';
-                    header("Location: MainMenu.php");
-                } else {
-                    echo "hello USER";
+                //stores staff id in a variable
+                $staff_id = $row['staff_id'];
+
+                //sql query to search staff_table for staff_id
+                $sql = "SELECT * FROM staff_table WHERE staff_id='$staff_id'";
+                $staff_result = mysqli_query($conn, $sql);
+
+                if (mysqli_num_rows($staff_result) > 0) {
+                    $staff_table_row = mysqli_fetch_assoc($staff_result);
+                    //to find out whether the staff is an admin or a user
+                    if ($row['type']=='admin') {
+                        $_SESSION['type'] = 'admin';
+                        header("Location: MainMenu.php");
+                    } else if ($row['type']=='user') {
+                        $_SESSION['type'] = 'user';
+                        header("Location: MainMenu2.php");
+                    } else {
+                        $errorMsg = "Invalid account type";
+                    }
+
+
+
+                }else {
+                    $errorMsg = "Invalid staff id";
                 }
-                
                 
             } else {
                 $errorMsg = "Invalid password";
@@ -78,7 +108,7 @@
                         <input type="text" name="login_pwd"/></p>
                     <br/><br/>
                     <input type="submit" name="login" value="Login" >
-                    <input type="reset" name="clear" value="Clear Form" >
+                    <input type="submit" name="reset" value="Clear Form" >
 
                     </form>
                 </div>

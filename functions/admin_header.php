@@ -10,16 +10,10 @@
             <!--create dropdown menu in nav bar of products-->
             
             <li>
-                <a href="login.php" target="new_window">Login</a>
+                <a href="MainMenu.php" target="new_window">Main Menu</a>
             </li>
             <li>
-                <a href="addEmployeeForm.php" target="new_window">Add Staff</a>
-            </li>
-            <li>
-                <a href="searchEmployeeForm.php" target="new_window">View Staff</a>
-            </li>
-            <li>
-                <a href="deleteEmployee.php" target="new_window">Delete Staff</a>
+                <a href="login.php" target="new_window">Logout</a>
             </li>
         </ul>
     </nav>

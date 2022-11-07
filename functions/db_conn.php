@@ -75,30 +75,33 @@
     execute_query($conn, $staff_kpi_table, "staff_kpi_table");
     execute_query($conn, $account_table, "account_table");
 
+    $sql_chkadmin = "SELECT * FROM staff_table WHERE staff_id = 'SS001'";
+
+    $result = mysqli_query($conn, $sql_chkadmin);
+
+    if (mysqli_num_rows($result) < 1) { 
+        $populate_staff_tbl = "INSERT INTO staff_table (staff_id, email, `name`, gender, school) VALUES ('SS001', 'admin@swinburne.edu.my', 'admin', 'Male', 'SFS'), ('SS100', 'jennifer@swinburne.edu.my', 'Jennifer Lau', 'Female', 'SFS')";
+        $populate_acc_tbl = "INSERT INTO account_table (staff_id,`name`, `password`, `type`, email) VALUES ('SS001', 'admin', 'admin', 'admin', 'admin@swinburne.edu.my'), ('SS100', 'jennifer', 'password123', 'user', 'jennifer@swinburne.edu.my')";
+    
+        populateDB($conn, $populate_staff_tbl, 'staff');
+        populateDB($conn, $populate_acc_tbl, 'account');
+    }
+        
+
+
     //executes sql query to create database/tables
     function execute_query($conn, $sql_query, $name) {
-        if (mysqli_query($conn, $sql_query)) {
-            echo "$name created OK";
-        } else {
+        if (!mysqli_query($conn, $sql_query)) {
             echo "Error creating $name: " . mysqli_error($conn);
         }
     };
 
-    $populate_staff_tbl = "INSERT IGNORE INTO staff_table (staff_id, email, `name`, gender, school) VALUES ('SS001', 'admin@swinburne.edu.my', 'admin', 'Male', 'SFS'), ('SS100', 'jennifer@swinburne.edu.my', 'Jennifer Lau', 'Female', 'SFS')";
-    $populate_acc_tbl = "INSERT IGNORE INTO account_table (id, staff_id,`name`, `password`, `type`, email) VALUES (1, 'SS001', 'admin', 'admin', 'admin', 'admin@swinburne.edu.my'), (2, 'SS100', 'jennifer', 'password123', 'user', 'jennifer@swinburne.edu.my')";
-
-    populateDB($conn, $populate_staff_tbl, 'staff');
-    populateDB($conn, $populate_acc_tbl, 'account');
 
     function populateDB($conn, $sql_query, $name) {
-        if (mysqli_query($conn, $sql_query)) {
-            echo "$name OK";
-        } else {
+        if (!mysqli_query($conn, $sql_query)) {
             echo " $name Error: " . mysqli_error($conn);
         }
     }
 
-    // closing connection
-    // mysqli_close($conn);
 ?>
 

@@ -19,7 +19,10 @@
 
 
     <body>
-        <?php include_once '../functions/db_conn.php'; ?>
+        <?php 
+            include_once '../functions/db_conn.php'; 
+            mysqli_close($conn);
+        ?>
         <section class="container">
             <br/>
             <h1 class="title">KPI Assignment System</h1>

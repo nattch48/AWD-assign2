@@ -9,6 +9,7 @@
     session_start();
     echo $_SESSION['email'];
     include_once('../functions/check_user.php');
+    include_once '../functions/db_conn.php'; 
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +45,6 @@
             $saved = false;
             $saveMsg = "";
             $errCount = 0;
-            $newEntry = array();
             $nameErr = $staffIdErr = $emailErr = $genderErr = $facultyErr = "";
             $name = $staffId = $email = $gender = $faculty = "";
 
@@ -61,8 +61,6 @@
                         $errCount++;
                         $nameErr = "Only letters and white space allowed";
                         
-                    } else {
-                        $newEntry['Name'] = $name;
                     }
                     
                 } else {
@@ -77,7 +75,6 @@
                         $errCount++;
                         $staffIdErr = "Staff ID should start with SS followed by the number";
                     } else {
-                        $staffId = mysqli_real_escape_string($conn, $staffId);
                         //checks if staffID is taken
                         $sql = "SELECT * FROM staff_table WHERE staff_id='$staffId'";
 
@@ -86,9 +83,6 @@
                         if (mysqli_num_rows($result) > 0) {
                             $staffIdErr = "Found matches. There is an existing ID with ID: $staffId";
                             $errCount++;
-                        }else{
-                            echo "No matches found.";
-                            $newEntry['staff ID'] = $staffId;
                         }
                         
                     }
@@ -106,10 +100,7 @@
                     if (!preg_match("/^.*@swinburne.edu.my*$/",$email)) {
                         $errCount++;
                         $emailErr = "invalid email format";
-                    } else {
-                        $newEntry['Email'] = $email;
                     }
-                
                 }else{
                     $errCount++;
                     $emailErr = "Email is required";
@@ -117,21 +108,25 @@
 
                 if (isset ($_POST["gender"]) ){ 
                     $gender = $_POST["gender"];
-                    $newEntry['Gender'] = $gender;
                 
                 }
 
                 if (isset ($_POST["faculty"] )) {
                     $faculty = $_POST["faculty"];
-                    $newEntry['School'] = $faculty;
                 }
 
                 
                 //if all required fields are filled correctly, save to DB and echo message.
                 if ($errCount === 0) {
-
-                    $sql = "INSERT INTO staff_table () VALUES ();
-                            INSERT INTO account_table () VALUES ()";
+                    $default_pwd = 'password123';
+                    $default_type = 'user';
+                    $acc_name = str_replace('@swinburne.edu.my', '', $email);
+                    $sql_staff = "INSERT INTO staff_table (staff_id, email, `name`, gender, school) VALUES ('$staffId', '$email', '$name', '$gender', '$faculty');";
+                    $sql_acc = "INSERT INTO account_table (staff_id,`name`, `password`, `type`, email) VALUES ('$staffId', '$acc_name', '$default_pwd', '$default_type', '$email'); ";
+                    
+                    populateDB($conn, $sql_staff, 'staff');
+                    populateDB($conn, $sql_acc, 'account');
+                    mysqli_close($conn);
 
                     $saved = true;
                     $saveMsg = "Record is saved.";

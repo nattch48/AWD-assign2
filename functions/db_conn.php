@@ -78,7 +78,7 @@
     $sql_chkadmin = "SELECT * FROM staff_table WHERE staff_id = 'SS001'";
 
     $result = mysqli_query($conn, $sql_chkadmin);
-
+        //populate db if default admin user not found
     if (mysqli_num_rows($result) < 1) { 
         $populate_staff_tbl = "INSERT INTO staff_table (staff_id, email, `name`, gender, school) VALUES ('SS001', 'admin@swinburne.edu.my', 'admin', 'Male', 'SFS'), ('SS100', 'jennifer@swinburne.edu.my', 'Jennifer Lau', 'Female', 'SFS')";
         $populate_acc_tbl = "INSERT INTO account_table (staff_id,`name`, `password`, `type`, email) VALUES ('SS001', 'admin', 'admin', 'admin', 'admin@swinburne.edu.my'), ('SS100', 'jennifer', 'password123', 'user', 'jennifer@swinburne.edu.my')";

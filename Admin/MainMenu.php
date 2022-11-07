@@ -37,7 +37,7 @@
                     <img src="../images/red.png" alt="Staff Module">
                     <ul>
                         <li><a href="AddStaffForm.php">Add Staff Profile</a></li>
-                        <li><a href="#">Manage Staff Profile</a></li>
+                        <li><a href="SearchStaffForm.php">Manage Staff Profile</a></li>
                         <li><a href="#">Update Staff Profile</a></li>
                     </ul>
                 </div>

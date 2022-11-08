@@ -25,13 +25,13 @@
 .error {
     color: #FF0000;
 }
-.title, .footer {
+.center,.title, .footer {
     text-align: center;
 }
 
 .container{
     margin: auto;
-	width: min(95%, 80.5rem);
+	width: min(80%, 80.5rem);
 }
 
 .split{
@@ -43,6 +43,24 @@
     width: 40%;
     margin: auto;
     display: block;
+}
+
+.buttonHolder {
+	text-align: center;
+}
+.buttonHolder input {
+	margin: 15px;
+	padding: 0 5px;
+}
+.avatar img{
+	border-radius: 50%;
+}
+.avatar {
+	height: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
 }
 
 body, input[type=submit]{

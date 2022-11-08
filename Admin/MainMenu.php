@@ -5,7 +5,6 @@
     
     include_once('../functions/check_user.php');
     include_once('../functions/admin_header.php');
-    echo $_SESSION['email'];
 ?>
 <!DOCTYPE html>
 <html lang="en">

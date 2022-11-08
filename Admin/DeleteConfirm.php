@@ -1,4 +1,3 @@
-
 <?php
     $msg = '';
     session_start();

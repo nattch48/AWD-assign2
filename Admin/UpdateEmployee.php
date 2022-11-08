@@ -16,7 +16,7 @@
     $saveMsg = "";
     $errCount = 0;
     $nameErr = $staffIdErr = $emailErr = $genderErr = $facultyErr = "";
-    $name = $staffId = $email = $gender = $faculty = "";
+    $name = $staff_id = $email = $gender = $faculty = "";
 
     if (isset($_SESSION['update_staff']) && !empty($_SESSION['update_staff'])) {
         $staff_id = $_SESSION['update_staff'];
@@ -66,8 +66,8 @@
         //if all required fields are filled correctly, save to DB and echo message.
         if ($errCount === 0) {
             $acc_name = str_replace('@swinburne.edu.my', '', $email);
-            $sql_staff = "UPDATE staff_table SET email='$email', `name`='$name', gender='$gender', school='$faculty'  WHERE staff_id='$staffId'";
-            $sql_acc = "UPDATE account_table SET `name`='$acc_name', email='$email'  WHERE staff_id='$staffId'";
+            $sql_staff = "UPDATE staff_table SET email='$email', `name`='$name', gender='$gender', school='$faculty'  WHERE staff_id='$staff_id'";
+            $sql_acc = "UPDATE account_table SET `name`='$acc_name', email='$email'  WHERE staff_id='$staff_id'";
             
             populateDB($conn, $sql_staff, 'staff');
             populateDB($conn, $sql_acc, 'account');
@@ -77,12 +77,11 @@
 
             //clear array
             $_POST = array();
-            unset($_SESSION['update_staff']); ///delete this
-            unset($_SESSION['update_staff_id']);
             unset($_SESSION['update_name']);
             unset($_SESSION['update_gender']);
             unset($_SESSION['update_email']);
             unset($_SESSION['update_school']);
+            header("Location: DisplayStaffInfo.php?staff_id=$staff_id");
 
         } 
    
@@ -136,7 +135,7 @@
                         <span class="error">* <?php echo $nameErr;?></span>
                     <!--text field is disabled and uneditable-->
                     <p><label for="staffID">Staff ID: </label>
-                        <input type="text" name="staffID" id="staffID" value="<?php echo $_SESSION['update_staff']; ?>" disabled/>
+                        <input type="text" name="staffID" id="staffID" value="<?php echo isset($_SESSION['update_staff']) ? $_SESSION['update_staff'] : ''; ?>" disabled/>
                         <span class="error">* <?php echo $staffIdErr;?></span>
                     </p>
                     <p><label for="email">Email: </label>
@@ -161,7 +160,7 @@
                         </select>
                     </p>
 
-                    <input type="submit" id="submit" value="Add Staff" >
+                    <input type="submit" id="submit" value="Update Staff" >
 
                 </fieldset>
             </form>
@@ -171,11 +170,6 @@
             <span class="saveRec"><strong><?php echo $saveMsg;?></strong></span>
         </section>
         <br/><br/>
-        <?php
-        echo '<pre>';
-        var_dump($_SESSION);
-        echo '</pre>';
-        ?>
         
     </body>
     <?php include_once "../functions/footer.php"?>

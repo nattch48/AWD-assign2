@@ -27,7 +27,7 @@
 
         //if buttons are clicked
         if(isset($_POST['update'])) {
-            $_SESSION['update_staff_id'] = $staffId;
+            $_SESSION['update_staff'] = $staffId;
             $_SESSION['update_name'] = $row['name'];
             $_SESSION['update_gender'] =$row['gender'];
             $_SESSION['update_email'] = $row['email'];

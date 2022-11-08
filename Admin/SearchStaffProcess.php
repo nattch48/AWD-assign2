@@ -61,8 +61,7 @@
                 <ul>
                     <?php
                         while ($row = mysqli_fetch_assoc($result)) {
-    
-                            echo '<li class="nested"><a href="displayStaffInfo.php?staff_id='.$row['staff_id'].'">'.$row['name'].'</a></li>';
+                            echo '<li class="nested"><a href="DisplayStaffInfo.php?staff_id='.$row['staff_id'].'">'.$row['name'].'</a></li>';
                             
                         }
 

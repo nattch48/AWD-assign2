@@ -39,20 +39,23 @@
     }
 
     function addKPI($conn, $num,$desc){
-    $result="";
+        $result="";
 
-    // sql statement that ensures that there is no existing KPI number before inserting into the table
-    $sql = "INSERT INTO kpi_table (kpi_num, description) 
-            SELECT * FROM (SELECT '$num', '$desc') AS tmp
-            WHERE NOT EXISTS(  
-                SELECT kpi_num FROM kpi_table WHERE kpi_num = '$num') LIMIT 1";  
-    
-    mysqli_query($conn, $sql);  
-    if ( mysqli_affected_rows($conn)>0)
-        $result="Records inserted successfully.";
-    else
-        $result="There is an existing KPI number. Please use a different number";
-    return $result;
+        // sql statement that ensures that there is no existing KPI number before inserting into the table
+        $sql = "INSERT INTO kpi_table (kpi_num, description) 
+                SELECT * FROM (SELECT '$num', '$desc') AS tmp
+                WHERE NOT EXISTS(  
+                    SELECT kpi_num FROM kpi_table WHERE kpi_num = '$num') LIMIT 1";  
+        
+        mysqli_query($conn, $sql);  
+        if ( mysqli_affected_rows($conn)>0) {
+            $result="Records inserted successfully.";
+            $_POST=array();
+            return $result;
+        }else{
+            $result="There is an existing KPI number. Please use a different number";
+            return $result;
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -76,9 +79,6 @@
 
 
     <body>
-    <pre>
-<?php var_dump($_POST); ?>
-</pre>
         <section class="container">
             <br/>
             <h1 class="title">Add KPI</h1>

@@ -3,7 +3,7 @@
 <?php
     session_start();
     
-    include_once('../functions/check_user.php');
+    include_once('../functions/check_admin.php');
     include_once('../functions/admin_header.php');
 ?>
 <!DOCTYPE html>
@@ -43,7 +43,7 @@
                 <div class="mm_column">
                     <img src="../images/kpi_blue.png" alt="KPI Module">
                     <ul>
-                        <li><a href="#">Add KPI</a></li>
+                        <li><a href="AddKPIForm.php">Add KPI</a></li>
                         <li><a href="#">Manage KPI</a></li>
                     </ul>
                 </div>

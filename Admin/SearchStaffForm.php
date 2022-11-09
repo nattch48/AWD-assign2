@@ -5,7 +5,7 @@
 - links working -->
 <?php
     session_start();
-    include_once('../functions/check_user.php');
+    include_once('../functions/check_admin.php');
     include_once '../functions/db_conn.php'; 
 ?>
 <!DOCTYPE html>

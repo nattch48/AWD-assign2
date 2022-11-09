@@ -18,7 +18,24 @@
 	padding: 0 20%;
 }
 
-  
+fieldset {
+	margin: auto;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.center-fieldset td{
+	height: 40px; 				
+	text-align: left;
+}
+
+.button {
+	font-size: 18px;
+	padding: 6px 20px;
+	margin-top: 10px;
+	margin:auto;
+   display:block;				 
+}
 
 
 /* changes texts of errors to red */

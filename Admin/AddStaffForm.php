@@ -7,7 +7,7 @@
 - links -->
 <?php
     session_start();
-    include_once('../functions/check_user.php');
+    include_once('../functions/check_admin.php');
     include_once '../functions/db_conn.php'; 
 ?>
 
@@ -47,10 +47,6 @@
             $nameErr = $staffIdErr = $emailErr = $genderErr = $facultyErr = "";
             $name = $staffId = $email = $gender = $faculty = "";
 
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~FORM VALIDATION STARTS HERE!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            //checks for a POST request to see if form was submitted --> https://www.geeksforgeeks.org/how-to-create-a-php-form-that-submit-to-self/
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
                 if (isset ($_POST["name"]) && (!empty($_POST["name"])) ){ 

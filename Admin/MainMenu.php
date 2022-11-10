@@ -44,7 +44,7 @@
                     <img src="../images/kpi_blue.png" alt="KPI Module">
                     <ul>
                         <li><a href="AddKPIForm.php">Add KPI</a></li>
-                        <li><a href="#">Manage KPI</a></li>
+                        <li><a href="ManageKPIForm.php">Manage KPI</a></li>
                     </ul>
                 </div>
 

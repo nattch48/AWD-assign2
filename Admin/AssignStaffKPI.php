@@ -7,15 +7,11 @@
     include_once('../functions/db_conn.php');
     $result = "";
     
-    if (isset($_SESSION['staff_id']) && !empty($_SESSION['staff_id'])) {        
-        $staff_id=$_SESSION['staff_id'];
-    }else{
-        $staff_id='SS102'; //testing purposes
+    if (isset($_SESSION['update_staff_KPI']) && !empty($_SESSION['update_staff_KPI'])) {        
+        $staff_id=$_SESSION['update_staff_KPI'];
     }
     if (isset($_SESSION['staff_name']) && !empty($_SESSION['staff_name'])) {
         $staff_name=$_SESSION['staff_name'];
-    }else{
-        $staff_name="Tony Stark";
     }
 
     $assignedKPI = array();
@@ -27,8 +23,14 @@
     while ($row = mysqli_fetch_assoc($result)){
         array_push($assignedKPI, $row['kpi_num']);
     }
-    //forms a string containing all assigned or pending KPIs
-    $assignedKPI = implode(',', $assignedKPI);
+    if (count($assignedKPI)>0) {
+        //forms a string containing all assigned or pending KPIs
+        $assignedKPI = implode(',', $assignedKPI);
+        $sql_kpi_cat = "SELECT * FROM kpi_table WHERE kpi_num NOT IN ($assignedKPI) ORDER BY kpi_num;";
+    }else{
+        $sql_kpi_cat = "SELECT * FROM kpi_table ORDER BY kpi_num;";
+    }
+    
 
 
     if(isset($_POST["submit"]) ){
@@ -87,7 +89,6 @@
                         <option value="" disabled selected hidden>Choose KPI</option>
                         <optgroup label="--select KPI--">
                             <?php
-                                $sql_kpi_cat = "SELECT * FROM kpi_table WHERE kpi_num NOT IN ($assignedKPI) ORDER BY kpi_num;";
                                 $categories = mysqli_query($conn, $sql_kpi_cat);
                                 while ($category=mysqli_fetch_assoc($categories)) {
                             ?>

@@ -76,6 +76,9 @@ fieldset {
    display:block;				 
 }
 
+.footer a {
+	padding: 10px 20px;
+}
 
 /* changes texts of errors to red */
 .error {

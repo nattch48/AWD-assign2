@@ -1,4 +1,5 @@
 <?php
+use LDAP\Result;
     session_start();
     include_once('../functions/check_admin.php');
     include_once('../functions/admin_header.php');
@@ -8,19 +9,24 @@
     if(isset($_POST["submit"]) ){
 		if ($_POST["submit"]=="Delete KPI") {
 				$id=$_POST['id'];
-				$sql="DELETE FROM kpi_table WHERE id='$id'";
+				$sql="DELETE FROM kpi_table WHERE id=$id";
 				mysqli_query($conn,$sql);
+                if (mysqli_affected_rows($conn)<1) {
+                    $result= "You are not allowed to delete KPIs that are currently assigned to staffs.";
+                }else{
+                    $result="Successfully deleted KPI";
+                }
 		}
 
 		if ($_POST["submit"]=="Edit KPI") {
-		$id=$_POST['id'];
-		header("Location: UpdateKPI.php?id=$id");
+		    $id=$_POST['id'];
+		    header("Location: UpdateKPI.php?id=$id");
 		}
 
 	}
 
     $sql="select * from kpi_table ORDER BY kpi_num";
-    $result=mysqli_query($conn,$sql);
+    $kpilist=mysqli_query($conn,$sql);
     
 ?>
 <!DOCTYPE html>
@@ -49,8 +55,8 @@
             <h1 class="title">Manage Key Performance Indicator</h1>
             <br/><br/>
             <div class="item">
-                <div class="content">
-                    <table>  				
+                <div class="center">
+                    <table class="styled-table">  				
                     <tr>
                         <th>KPI List</th>	
                         <th>Click to edit KPI</th>
@@ -58,14 +64,14 @@
                     </tr>
                     
                     <?php  
-                            while ($row = mysqli_fetch_assoc($result)){ 
+                            while ($row = mysqli_fetch_assoc($kpilist)){ 
                                 echo '<tr><td class="content_left">'.$row['kpi_num'] ." - ".$row['description'] ."</td>";
-                                echo '<td> <form method="POST" id="myForm" action="">
+                                echo '<td> <form method="POST" id="myForm" action="" class="center">
                                         <input  name="id" type="hidden" value=' .$row["id"].'>   
-                                        <input type="submit" name="submit" value="Edit KPI" >
+                                        <input type="submit" name="submit" value="Edit KPI">
                                     </form>
                                     </td>';
-                                echo '<td> <form method="POST" id="myForm" action="">
+                                echo '<td> <form method="POST" id="myForm" action="" class="center">
                                         <input  name="id" type="hidden" value=' .$row["id"].'>   
                                         <input type="submit" name="submit" value="Delete KPI" >
                                     </form>
@@ -74,6 +80,7 @@
                         ?>
                                                                         
                     </table>
+                    <p class="error"><?php echo $result?> </p>
                     
                 </div>
             </div>

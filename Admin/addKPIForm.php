@@ -82,7 +82,8 @@
         <section class="container">
             <br/>
             <h1 class="title">Add KPI</h1>
-            <br/><br/>
+            <br/>
+            <hr/><br/>
             <div class="center-fieldset">
                 <form action="<?php echo $_SERVER["PHP_SELF"];?>"  method="post" >
                     <fieldset  >

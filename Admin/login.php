@@ -46,7 +46,8 @@
                         header("Location: MainMenu.php");
                     } else if ($row['type']=='user') {
                         $_SESSION['type'] = 'user';
-                        header("Location: MainMenu2.php");
+                        $_SESSION['user_staff_id']=$row['staff_id'];
+                        header("Location: ../User/user_MainMenu.php");
                     } else {
                         $errorMsg = "Invalid account type";
                     }

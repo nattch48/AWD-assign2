@@ -13,6 +13,8 @@
     session_start();
     include_once('../functions/check_admin.php');
     include_once('../functions/db_conn.php'); 
+    var_dump($_SESSION);
+    var_dump($_POST);
     $avatar_path = "";
     $staffId = "";
     if (isset($_GET['staff_id']) && !empty($_GET['staff_id'])) {
@@ -39,14 +41,15 @@
         //if buttons are clicked
         if(isset($_POST['assign_kpi'])) {
             $_SESSION['update_staff_KPI'] = $staffId;
+            $_SESSION['staff_name'] = $row['name'];
             header("Location: AssignStaffKPI.php");
         }
-        if ($_POST["submit"]=="Remove") {
+        if (isset($_POST["remove"])) {
             $id=$_POST['id'];
             $sql="DELETE FROM staff_kpi_table WHERE id='$id'";
             mysqli_query($conn,$sql);
         }
-        if ($_POST["submit"]=="Approve") {
+        if (isset($_POST["approve"])) {
             $id=$_POST['id'];
             $sql="UPDATE staff_kpi_table SET `status`='Approved' WHERE id='$id'";
             mysqli_query($conn,$sql);
@@ -103,7 +106,7 @@
         <br/><br/>
         <div class="mm_row">
             <div class="staff_kpi">
-                <p><?php echo $row['name']."'s KPI"?></p>
+                <p class="center" style="color: red;"><?php echo $row['name']."'s KPI"?></p>
                 <table class="styled-table">  				
                     <tr>
                         <th>KPI List</th>	
@@ -119,7 +122,7 @@
                             if ($row['status']=="Pending" || $row['status']=="pending") {
                                 echo '<td> <form method="POST" id="myForm" action="">
                                     <input  name="id" type="hidden" value=' .$row["id"].'>   
-                                    <input type="submit" name="submit" value="Approve" >
+                                    <input type="submit" name="approve" value="Approve" >
                                 </form>
                                 </td>';
                             } else {
@@ -127,19 +130,19 @@
                             }
                             echo '<td> <form method="POST" id="myForm" action="">
                                     <input  name="id" type="hidden" value=' .$row["id"].'>   
-                                    <input type="submit" name="submit" value="Remove" >
+                                    <input type="submit" name="remove" value="Remove" >
                                 </form>
                                 </td></tr>';
                         }						
                     ?>
                                                                         
                 </table>
-                <form method="POST" id="myForm" action="">
+                <form method="POST" id="myForm" action="" class="center">
                     <input type="submit" name="assign_kpi" value="Assign KPI" >
                 </form>
             </div>
             <div class="kpi_overview">
-                <p>KPI overview</p>
+                <p class="center"  style="color: red;">KPI overview</p>
                 <?php 
                     //kpi overview sql statement
                     $sql = "SELECT k.kpi_num, k.description, GROUP_CONCAT(s.name) AS staff_list

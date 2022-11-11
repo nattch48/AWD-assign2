@@ -54,7 +54,7 @@
                 <div class="mm_column">
                     <img src="../images/report_green.png" alt="Reporting Module">
                     <ul>
-                        <li><a href="#">KPI Overview</a></li>
+                        <li><a href="KPIReport.php">KPI Overview</a></li>
 
                     </ul>
                 </div>

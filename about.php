@@ -43,6 +43,7 @@
             <li>Parts I had trouble with:</li>
             <ul class="nested">
                 <li>The availability page (Task 17)</li>
+                <li>The KPI report task as I had to join multiple SQL tables which was quite confusing. However, I was able to complete it after refering to some similar ones on stackoverflow</li>
                 
             </ul>
             <li>What I would like to do better next time:</li>

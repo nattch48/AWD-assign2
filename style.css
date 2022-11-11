@@ -21,17 +21,17 @@
 fieldset {
 	margin: auto;
 	padding: 5px 10px;
-	text-align: center;
 }
 /* table for reportkpi */
 .styled-table {
+	padding: 0 20px;
     border-collapse: collapse;
     margin: 25px 0;
 	margin-left: auto;
   	margin-right: auto;
     font-size: 0.9em;
-    font-family: sans-serif;    
-	min-width: 90%;
+    font-family: sans-serif;
+    min-width: 600px;
     box-shadow: 0 0
 	 20px rgba(0, 0, 0, 0.15);
 }
@@ -108,15 +108,23 @@ fieldset {
 	margin: 15px;
 	padding: 0 5px;
 }
-.avatar img{
+.avatar-img img{
 	border-radius: 50%;
+	margin-left: auto;
+	margin-right: auto;
 }
 .avatar {
-	height: 300px;
+	min-height: 325px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.intro {
+	margin: 0 30%;
 	box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+	text-align: center;
+	padding-bottom: 20px;
 }
 
 body, input[type=submit]{

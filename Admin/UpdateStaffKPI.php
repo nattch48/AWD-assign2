@@ -14,7 +14,13 @@
     include_once('../functions/check_admin.php');
     include_once('../functions/db_conn.php'); 
     $avatar_path = "";
-    $staffId = $_GET['staff_id'];
+    $staffId = "";
+    if (isset($_GET['staff_id']) && !empty($_GET['staff_id'])) {
+        $staffId = $_GET['staff_id'];
+    } elseif (isset($_SESSION['update_staff_KPI']) && !empty($_SESSION['update_staff_KPI'])) {
+        $staffId = $_SESSION['update_staff_KPI'];
+    }
+
     $sql = "SELECT * FROM staff_table WHERE staff_id = '$staffId'";
 
     $result = mysqli_query($conn, $sql);
@@ -31,36 +37,21 @@
         }
 
         //if buttons are clicked
-        if(isset($_POST['assignKPI'])) {
+        if(isset($_POST['assign_kpi'])) {
             $_SESSION['update_staff_KPI'] = $staffId;
-            
-
             header("Location: AssignStaffKPI.php");
         }
-        if(isset($_POST['delete'])) {
-            //delete staff record from staff_table & staff_kpi_table
-            $delete_staff_kpi = "DELETE FROM staff_kpi_table WHERE staff_id = '$staffId';";
-            $delete_acc = "DELETE FROM account_table WHERE staff_id = '$staffId';";
-            $delete_staff = "DELETE FROM staff_table WHERE staff_id = '$staffId';";
-
-            
-            execute_query($conn, $delete_staff_kpi, 'staff_kpi delete');
-            execute_query($conn, $delete_acc, 'acc delete');
-            execute_query($conn, $delete_staff, 'staff delete');
-            
-            $chk_delete_sql = "SELECT * FROM staff_table WHERE staff_id = '$staffId'";
-            $chk_delete = mysqli_query($conn, $chk_delete_sql);
-
-            if (mysqli_num_rows($chk_delete)<1) {
-                $_SESSION['deleted'] = 'Record is deleted successfully.';
-            }else {
-                $_SESSION['deleted'] = 'Record deletion unsuccessful.';
-
-            }
-            //redirect to DeleteConfirm.php
-            header("Location: DeleteConfirm.php");
-            unset($_POST);
+        if ($_POST["submit"]=="Remove") {
+            $id=$_POST['id'];
+            $sql="DELETE FROM staff_kpi_table WHERE id='$id'";
+            mysqli_query($conn,$sql);
         }
+        if ($_POST["submit"]=="Approve") {
+            $id=$_POST['id'];
+            $sql="UPDATE staff_kpi_table SET `status`='Approved' WHERE id='$id'";
+            mysqli_query($conn,$sql);
+        }
+        
     }
 
 
@@ -92,49 +83,89 @@
     <br/>
     <section class="container">
         <hr/><br/>
-        
-        <div class="avatar">
-            <?php if ($matches > 0) {?>
-                <img src="../images/<?php echo $avatar_path ?>" alt="Female Avatar"/>
-            <?php }else{ ?>
-                <p class="error">Image unavailable</p>
-            <?php } ?>
-            <h2><?php echo $name?></h2>
-        </div>
-        <br/>
-        <div>
-            <fieldset class="container2">
-                <Legend>Staff Information</Legend>
-                <ul>
-                    <?php 
-                       if ($matches>0) {
-                            //prints out employee details with bolded labels
-                            echo "<strong>Name: </strong>".$row['name']."<br/>";
-                            echo "<strong>Staff ID: </strong>".$row['staff_id']."<br/>";
-                            echo "<strong>Email: </strong>".$row['email']."<br/>";
-                            echo "<strong>Gender: </strong>".$row['gender']."<br/>";
-                            echo "<strong>School: </strong>".$row['school']."<br/>";
-                         }else{
-                            echo "<p class = 'error'><strong>No matches found</strong></p></br></br>";
+        <div class="intro">
+            <div class="avatar">
+                <div class="avatar-img">
+                    <?php if ($matches > 0) {?>
+                        <p><img src="../images/<?php echo $avatar_path ?>" alt="Female Avatar"/></p>
+                    <?php }else{ ?>
+                        <p class="error">Image unavailable</p>
+                    <?php } ?>
+                </div>
+                
+            </div>
+            <h2><?php echo $row['name'] ?></h2>
+            <p><?php echo $row['staff_id'] ?></p>
+            <p><?php echo $row['email'] ?></p>
 
-                        }
-                                         
-                    
-                    ?>
-                </ul>
-                <?php if ($matches > 0) {?>
-                    <form method="post">
-                        <div class="buttonHolder">
-                            <input type="submit" name="update"
-                                    class="button" value="Update" />
-                            
-                            <input type="submit" name="delete"
-                                    class="button" value="Delete" />
-                        </div>
-                    </form>
-                <?php } ?>
-            </fieldset>
         </div>
+        
+        <br/><br/>
+        <div class="mm_row">
+            <div class="staff_kpi">
+                <p><?php echo $row['name']."'s KPI"?></p>
+                <table class="styled-table">  				
+                    <tr>
+                        <th>KPI List</th>	
+                        <th>Approval Status</th>
+                        <th>Remove</th>					  				  										  				  					
+                    </tr>
+                    
+                    <?php  
+                        $sql_kpi = "SELECT * FROM staff_kpi_table WHERE staff_id='$staffId' ORDER BY kpi_num;";
+                        $staffkpi=mysqli_query($conn, $sql_kpi);
+                        while ($row = mysqli_fetch_assoc($staffkpi)){ 
+                            echo '<tr><td class="content_left">'.$row['kpi_num'] ."</td>";
+                            if ($row['status']=="Pending" || $row['status']=="pending") {
+                                echo '<td> <form method="POST" id="myForm" action="">
+                                    <input  name="id" type="hidden" value=' .$row["id"].'>   
+                                    <input type="submit" name="submit" value="Approve" >
+                                </form>
+                                </td>';
+                            } else {
+                                echo "<td>Approved</td>";
+                            }
+                            echo '<td> <form method="POST" id="myForm" action="">
+                                    <input  name="id" type="hidden" value=' .$row["id"].'>   
+                                    <input type="submit" name="submit" value="Remove" >
+                                </form>
+                                </td></tr>';
+                        }						
+                    ?>
+                                                                        
+                </table>
+                <form method="POST" id="myForm" action="">
+                    <input type="submit" name="assign_kpi" value="Assign KPI" >
+                </form>
+            </div>
+            <div class="kpi_overview">
+                <p>KPI overview</p>
+                <?php 
+                    //kpi overview sql statement
+                    $sql = "SELECT k.kpi_num, k.description, GROUP_CONCAT(s.name) AS staff_list
+                    FROM kpi_table k LEFT JOIN staff_kpi_table sk ON k.kpi_num = sk.kpi_num 
+                    LEFT JOIN staff_table s ON sk.staff_id = s.staff_id GROUP BY k.kpi_num; ";
+                    $result = mysqli_query($conn, $sql);           
+                
+                ?>
+                <table class="styled-table">  				
+                    <tr>
+                        <th>KPI List</th>	
+                        <th>List of Staff</th>					  				  										  				  					
+                    </tr>
+                    
+                    <?php  
+                            while ($row = mysqli_fetch_assoc($result)){ 
+                                echo '<tr><td class="content_left">'.$row['kpi_num'] ." - ".$row['description'] ."</td>";
+                                echo '<td>' .$row['staff_list'].'
+                                    </td></tr>';
+                            }						
+                        ?>
+                                                                        
+                </table>
+            </div>
+        </div>
+                
     </section>
     <br/><br/>
         

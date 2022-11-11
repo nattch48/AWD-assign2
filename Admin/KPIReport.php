@@ -62,8 +62,6 @@
                         ?>
                                                                         
                     </table>
-                    
-
                 </div>
             </div>
         </section>

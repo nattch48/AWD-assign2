@@ -1,6 +1,5 @@
 <?php
 //create db called 'staff_db' with 4 tables (staff_table, kpi_table, staff_kpi_table, account_table)
-//CREATE TABLE IF NOT EXISTS
 
     $servername = "localhost";
     $username = "root";

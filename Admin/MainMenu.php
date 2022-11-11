@@ -37,7 +37,7 @@
                     <ul>
                         <li><a href="AddStaffForm.php">Add Staff Profile</a></li>
                         <li><a href="SearchStaffForm.php">Manage Staff Profile</a></li>
-                        <li><a href="#">Update Staff Profile</a></li>
+                        <li><a href="SearchStaffForm.php?updatestaffkpi=true">Update Staff KPI</a></li>
                     </ul>
                 </div>
                 <div class="mm_column">

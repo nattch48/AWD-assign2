@@ -7,7 +7,13 @@
 <?php
     session_start();
     include_once('../functions/check_admin.php');
-    include_once '../functions/db_conn.php'; 
+    include_once '../functions/db_conn.php';
+
+    //checks which link was clicked by the user
+    if (isset($_SESSION['updatestaffkpi']) && !empty($_SESSION['updatestaffkpi'])) {
+        $update = $_SESSION['updatestaffkpi'];
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +67,12 @@
                 <ul>
                     <?php
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo '<li class="nested"><a href="DisplayStaffInfo.php?staff_id='.$row['staff_id'].'">'.$row['name'].'</a></li>';
+                            if (isset($_SESSION['updatestaffKPI'])){
+                                echo '<li class="nested"><a href="UpdateStaffKPI.php?staff_id='.$row['staff_id'].'">'.$row['name'].'</a></li>';
+                            }else{
+                                echo '<li class="nested"><a href="DisplayStaffInfo.php?staff_id='.$row['staff_id'].'">'.$row['name'].'</a></li>';
+
+                            }
                             
                         }
 

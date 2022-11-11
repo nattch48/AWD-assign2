@@ -7,6 +7,14 @@
     session_start();
     include_once('../functions/check_admin.php');
     include_once '../functions/db_conn.php'; 
+
+    $page_title = "Search Staff Profile";
+    //checks which link was clicked by the user
+    if (isset($_GET['updatestaffkpi']) && !empty($_GET['updatestaffkpi'])) {
+        $_SESSION['updatestaffKPI']=$_GET['updatestaffkpi'];
+        $page_title="Update Staff KPI";
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,13 +39,14 @@
     <body>
     <?php include_once '../functions/admin_header.php'; ?>
     <br/>
-    <h1 class="title">Search Staff Profile</h1>
+    <h1 class="title"><?php echo $page_title?></h1>
     <br/>
     <section class="container">
         <hr/>
         <?php 
             $msgErr = "";
             $searchName = "";
+            
 
             //checks for a GET request to see if form was submitted
             if ($_SERVER["REQUEST_METHOD"] === "GET") {
@@ -76,14 +85,14 @@
 
         ?> 
     
-        <form method="GET" action=<?php echo htmlspecialchars("SearchStaffForm.php") ?>>
+        <form method="GET" action=<?php echo htmlspecialchars("SearchStaffForm.php") ?> class="center">
 
                 <label for="searchname">Staff Name: </label>
                     <p><input type="text" name="searchname"/></p>
                     <!-- displays error message -->
                     <span class="error"><?php echo $msgErr;?></span>
                 <br/><br/>
-                <input type="submit" name="submit" value="Search Staff" >
+                <input type="submit" name="submit" value="Search" />
 
         </form>
         <br/><br/>

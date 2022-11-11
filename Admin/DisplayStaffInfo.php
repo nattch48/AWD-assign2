@@ -1,9 +1,3 @@
-<!-- Task 7 (10 marks)
-- admin
-- staff info displayed accordingly
-- update and delete button working
-- links working -->
-
 <?php
     session_start();
     include_once('../functions/check_admin.php');

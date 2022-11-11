@@ -1,11 +1,3 @@
-<!-- Task 8 (8 marks)
-- admin
-- information entered is validated
-- tables successfully updated
-- links working -->
-
-<!-- $_SESSION['update_staff'] = $row['staff_id']; -->
-
 <?php
     session_start();
     include_once('../functions/check_admin.php');
@@ -75,7 +67,7 @@
             $saved = true;
             $saveMsg = "Record is saved.";
 
-            //clear array
+            //clear $_POST and $_SESSION variables
             $_POST = array();
             unset($_SESSION['update_name']);
             unset($_SESSION['update_gender']);

@@ -96,22 +96,22 @@
             <h1 class="title">KPI Assignment System</h1>
             <br/>
             <h2 class="title">Login Page</h2>
-            <br/>
-            <div class="split">
-                <div class="login_img">
-                    <img src="../images/top_image.png" alt="Login Image">
-                </div>
+            <br/><br/>
+            <div class="mm_row">
                 <div class="login_content">
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-                    <p><label for="login_name">Login Name: </label>
-                        <input type="text" name="login_name"/></p>
-                    <p><label for="login_pwd">Password: </label>
-                        <input type="text" name="login_pwd"/></p>
-                    <br/><br/>
-                    <input type="submit" name="login" value="Login" >
-                    <input type="submit" name="reset" value="Clear Form" >
+                    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" class="center">
+                        <p><label for="login_name">Login Name: </label>
+                            <input type="text" name="login_name"/></p>
+                        <p><label for="login_pwd">Password: </label>
+                            <input type="text" name="login_pwd"/></p>
+                        <br/><br/>
+                        <input type="submit" name="login" value="Login" >
+                        <input type="submit" name="reset" value="Clear Form" >
 
                     </form>
+                </div>
+                <div class="login_img">
+                    <img src="../images/top_image.png" alt="Login Image">
                 </div>
             </div>
 

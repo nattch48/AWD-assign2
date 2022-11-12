@@ -1,6 +1,4 @@
 <?php
-//set name and staff as session variables in updateStaffKPI.php
-
     session_start();
     include_once('../functions/check_user.php');
     include_once('../functions/user_header.php');
@@ -78,10 +76,10 @@
     <body>
         <section class="container">
             <br/>
-            <h1 class="title">Reset Password</h1>
+            <h1 class="title">Assign KPI</h1>
             <br/><br/>
             <fieldset>
-                <legend>Personal Information</legend>
+                <legend><?php echo $staff_name ?></legend>
                 <form method="POST" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> class="center">
 
                 <label for="searchname">KPI: </label>

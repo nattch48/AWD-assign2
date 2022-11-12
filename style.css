@@ -22,6 +22,10 @@ fieldset {
 	margin: auto;
 	padding: 5px 10px;
 }
+
+fieldset ul{
+	list-style-position: inside;
+}
 /* table for reportkpi */
 .styled-table {
 	padding: 0 20px;

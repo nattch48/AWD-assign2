@@ -43,8 +43,8 @@
                 <div class="mm_column">
                     <img src="../images/red_main.png" alt="Staff Module">
                     <ul>
-                        <li><a href="#">Manage KPI</a></li>
-                        <li><a href="#">Update Profile</a></li>
+                        <li><a href="user_ManageKPI.php">Manage KPI</a></li>
+                        <li><a href="user_UpdateProfile.php">Update Profile</a></li>
                     </ul>
                 </div>
                 
@@ -56,6 +56,6 @@
         </section>
         
     </body>
-    <?php include_once "../functions/footer.php"?>
+    <?php include_once "../functions/user_footer.php"?>
 
 </html>

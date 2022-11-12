@@ -1,13 +1,3 @@
-<!-- Task 10(15 marks)
-- must be admin
-- processes working as expected
-- query produces correct result
-- page similar to screenshot -->
-<!-- Task 7 (10 marks)
-- admin
-- staff info displayed accordingly
-- update and delete button working
-- links working -->
 
 <?php
     session_start();

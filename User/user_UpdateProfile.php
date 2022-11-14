@@ -5,53 +5,49 @@
     include_once('../functions/check_user.php');
     include_once('../functions/user_header.php');
     include_once('../functions/db_conn.php');
-    $result = "";
 
     if (isset($_SESSION['user_staff_id']) && !empty($_SESSION['user_staff_id'])) {        
         $staff_id=$_SESSION['user_staff_id'];
     }
-    if (isset($_SESSION['staff_name']) && !empty($_SESSION['staff_name'])) {
-        $staff_name=$_SESSION['staff_name'];
-    }
-
-    $assignedKPI = array();
-    //get array of assigned KPI
-    $sql_assignedkpi= "SELECT * FROM staff_kpi_table WHERE staff_id='$staff_id';";
-
-    $result = mysqli_query($conn, $sql_assignedkpi);
-    
-    while ($row = mysqli_fetch_assoc($result)){
-        array_push($assignedKPI, $row['kpi_num']);
-    }
-    if (count($assignedKPI)>0) {
-        //forms a string containing all assigned or pending KPIs
-        $assignedKPI = implode(',', $assignedKPI);
-        $sql_kpi_cat = "SELECT * FROM kpi_table WHERE kpi_num NOT IN ($assignedKPI) ORDER BY kpi_num;";
-    }else{
-        $sql_kpi_cat = "SELECT * FROM kpi_table ORDER BY kpi_num;";
-    }
-    
-
 
     if(isset($_POST["submit"]) ){
-		$kpi_num=$_POST['addKPI'];
-        //checks if there is duplicate entry
-        $sql = "SELECT * FROM staff_kpi_table WHERE staff_id='$staff_id' AND kpi_num='$kpi_num'";
+        $msg = "";
+        if (isset($_POST['pwd']) && !empty($_POST['pwd']) && isset($_POST['confirm_pwd'])  && !empty($_POST['confirm_pwd'])) {
+            $pwd=$_POST['pwd'];
+            $confirm_pwd=$_POST['confirm_pwd'];
 
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) > 0) {
-            echo "Found matches. There is an existing field with staff ID: $staff_id and kpi number: $kpi_num";
-            
-        }else {
-            $sql="INSERT INTO staff_kpi_table(staff_id, kpi_num, `status`) VALUES ('$staff_id', $kpi_num, 'Pending');";
-            mysqli_query($conn,$sql);
-            unset($_POST['addKPI']);
-            header("Location: user_ManageKPI.php");
+            if (strcmp($pwd, $confirm_pwd) == 0) { //strcmp returns 0 if the strings are identical 
+                $sql = "SELECT * FROM account_table WHERE staff_id='$staff_id'";
+                $result = mysqli_query($conn, $sql);
+    
+                if (mysqli_num_rows($result)>0) {
+                    $msg=changePwd($staff_id, $pwd, $conn, $msg);
+                }else{
+                    echo "<p class='error'>Password change failed! An unexpected error has occured.</p>";
+                }
+            }else{
+                $msg = "<span class='error'>Both passwords do not match. Please try again.</span>";
+            }
+        }else{
+            $msg = "<span class='error'>Incomplete input. Please fill in all the fields.</span>";
         }
-
-
 	}
+
+    function changePwd($staff_id, $pwd, $conn, $msg){
+        $hash = hash('sha256', $pwd); //hash pwd with SHA256 algorithm
+        $sql = "UPDATE account_table SET password='$hash' WHERE staff_id='$staff_id'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_query($conn, $sql)) {
+            $msg = "<h3 class>Password has been changed. Please log in with your new password.</h3>";
+            //log user out
+            session_unset();
+            session_destroy();
+        }else{
+            $msg = "ERROR: Could not execute SQL." . mysqli_error($conn);
+        }
+        return $msg;
+
+    }
 
     
 ?>
@@ -82,27 +78,47 @@
             <br/><br/>
             <fieldset>
                 <legend>Personal Information</legend>
-                <form method="POST" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> class="center">
+                <table class="table-center">
+                    <form method="POST" action=<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?> class="center">
+                        <tr>
+                            <td>
+                                <label for="name">New Password: </label>
+                            </td>
+                            <td>
+                                <input type="text" name="pwd" id="pwd" value="<?php echo isset($_POST["pwd"]) ? $_POST["pwd"] : ''; ?>"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td class="pwd-text">
+                                <span><em>Minimum 6 characters</em></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               <p><label for="name">Confirm Password: </label>   
+                            </td>
+                            <td>
+                                <input type="text" name="confirm_pwd" id="confirm_pwd" value="<?php echo isset($_POST["confirm_pwd"]) ? $_POST["confirm_pwd"] : ''; ?>"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"  class="padding">
+                                <input type="submit" name="submit" value="Reset Password" />
 
-                <label for="searchname">KPI: </label>
-                    <select name="addKPI" id="addKPI" required>
-                        <option value="" disabled selected hidden>Choose KPI</option>
-                        <optgroup label="--select KPI--">
-                            <?php
-                                $categories = mysqli_query($conn, $sql_kpi_cat);
-                                while ($category=mysqli_fetch_assoc($categories)) {
-                            ?>
-                            <option value="<?php echo $category['kpi_num']?>"><?php echo $category['kpi_num'] ." - ".$category['description']?></option>
-                            <?php
-                                }
-                            ?>
-                        </optgroup>
-                    </select>
-                <br/><br/>
-                <input type="submit" name="submit" value="Add KPI" />
+                            </td>
+                        </tr>
+                        
 
-        </form>
+                    </form>
+                </table>
+
+                <br/>
             </fieldset>
+            <div class="center">
+            <?php echo $msg; ?>
+            </div>
         </section>
         <br/><br/><br/>
         

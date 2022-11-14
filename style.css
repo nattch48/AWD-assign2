@@ -17,7 +17,9 @@
 .mm_column ul {
 	padding: 0 20%;
 }
-
+em {
+	font-size: 12px;
+}
 fieldset {
 	margin: auto;
 	padding: 5px 10px;
@@ -66,6 +68,25 @@ fieldset ul{
 .styled-table tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
+td[colspan="2"] {
+    text-align: center;
+}
+.pwd-text {
+	text-align: center;
+}
+.table-center {
+	margin-left: auto;
+	margin-right: auto;
+	border: none;
+}
+
+.table-center td, th {
+    border: none;
+}
+.padding {
+	padding-top: 20px;
+}
+
 
 .center-fieldset td{
 	height: 40px; 				

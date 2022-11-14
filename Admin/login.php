@@ -25,7 +25,10 @@
 
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
-            
+            //hashes password if NOT an admin and it is not the default password
+            if ($row['password']!=='password123' && $row['type']=='user'){
+                $pwd=hash('sha256', $pwd);
+            }
             //validates password with the ones in the DB
             if ($row['password']==$pwd) {
                 session_start();

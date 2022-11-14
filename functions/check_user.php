@@ -17,7 +17,7 @@
 
     function function_alert($msg) {
         echo "<script type='text/javascript'>alert('$msg');
-        window.location.href='login.php';
+        window.location.href='../Admin/login.php';
         </script>";
     }
 

@@ -97,8 +97,7 @@ td[colspan="2"] {
 	font-size: 18px;
 	padding: 6px 20px;
 	margin-top: 10px;
-	margin:auto;
-   display:block;				 
+	margin:auto;			 
 }
 
 .footer a {
@@ -131,7 +130,9 @@ td[colspan="2"] {
 
 .buttonHolder {
 	text-align: center;
+	
 }
+
 .buttonHolder input {
 	margin: 15px;
 	padding: 0 5px;

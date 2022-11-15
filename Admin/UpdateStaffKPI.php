@@ -3,8 +3,7 @@
     session_start();
     include_once('../functions/check_admin.php');
     include_once('../functions/db_conn.php'); 
-    var_dump($_SESSION);
-    var_dump($_POST);
+
     $avatar_path = "";
     $staffId = "";
     if (isset($_GET['staff_id']) && !empty($_GET['staff_id'])) {
@@ -110,13 +109,13 @@
                         while ($row = mysqli_fetch_assoc($staffkpi)){ 
                             echo '<tr><td class="content_left">'.$row['kpi_num'] ."</td>";
                             if ($row['status']=="Pending" || $row['status']=="pending") {
-                                echo '<td> <form method="POST" id="myForm" action="">
+                                echo '<td class="center"> <form method="POST" id="myForm" action="">
                                     <input  name="id" type="hidden" value=' .$row["id"].'>   
                                     <input type="submit" name="approve" value="Approve" >
                                 </form>
                                 </td>';
                             } else {
-                                echo "<td>Approved</td>";
+                                echo "<td class='center'>Approved</td>";
                             }
                             echo '<td> <form method="POST" id="myForm" action="">
                                     <input  name="id" type="hidden" value=' .$row["id"].'>   
@@ -137,7 +136,7 @@
                     //kpi overview sql statement
                     $sql = "SELECT k.kpi_num, k.description, GROUP_CONCAT(s.name) AS staff_list
                     FROM kpi_table k LEFT JOIN staff_kpi_table sk ON k.kpi_num = sk.kpi_num 
-                    LEFT JOIN staff_table s ON sk.staff_id = s.staff_id GROUP BY k.kpi_num; ";
+                    LEFT JOIN staff_table s ON sk.staff_id = s.staff_id AND sk.status='Approved' GROUP BY k.kpi_num; ";
                     $result = mysqli_query($conn, $sql);           
                 
                 ?>

@@ -5,25 +5,30 @@
     include_once('../functions/check_user.php');
     include_once('../functions/user_header.php');
     include_once('../functions/db_conn.php');
+    $msg = "";
 
     if (isset($_SESSION['user_staff_id']) && !empty($_SESSION['user_staff_id'])) {        
         $staff_id=$_SESSION['user_staff_id'];
     }
 
     if(isset($_POST["submit"]) ){
-        $msg = "";
         if (isset($_POST['pwd']) && !empty($_POST['pwd']) && isset($_POST['confirm_pwd'])  && !empty($_POST['confirm_pwd'])) {
             $pwd=$_POST['pwd'];
             $confirm_pwd=$_POST['confirm_pwd'];
 
             if (strcmp($pwd, $confirm_pwd) == 0) { //strcmp returns 0 if the strings are identical 
-                $sql = "SELECT * FROM account_table WHERE staff_id='$staff_id'";
-                $result = mysqli_query($conn, $sql);
-    
-                if (mysqli_num_rows($result)>0) {
-                    $msg=changePwd($staff_id, $pwd, $conn, $msg);
-                }else{
-                    echo "<p class='error'>Password change failed! An unexpected error has occured.</p>";
+                if (strlen($pwd)>=6) {
+                    $sql = "SELECT * FROM account_table WHERE staff_id='$staff_id'";
+                    $result = mysqli_query($conn, $sql);
+        
+                    if (mysqli_num_rows($result)>0) {
+                        $msg=changePwd($staff_id, $pwd, $conn, $msg);
+                    }else{
+                        $msg = "<p class='error'>Password change failed! An unexpected error has occured.</p>";
+                    }
+                }
+                else{
+                    $msg = "<p class='error'>Please make sure password has a minimum of 6 characters.</p>";
                 }
             }else{
                 $msg = "<span class='error'>Both passwords do not match. Please try again.</span>";

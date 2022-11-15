@@ -116,7 +116,7 @@
                 <?php if ($matches > 0) {?>
                     <form method="post">
                         <div class="buttonHolder">
-                            <input type="submit" name="update"
+                            <p><input type="submit" name="update"
                                     class="button" value="Update" />
                             
                             <input type="submit" name="delete"

@@ -66,15 +66,6 @@
             </form>
         </section>
         <br/><br/>
-        <?php
-        echo '<pre>';
-        var_dump($_SESSION);
-        echo '</pre>';
-        unset($_SESSION['deleted']);
-        echo '<pre>';
-        var_dump($_SESSION);
-        echo '</pre>';
-        ?>
         
     </body>
     <?php include_once "../functions/footer.php"?>
